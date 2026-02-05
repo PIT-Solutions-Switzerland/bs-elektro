@@ -1,0 +1,44 @@
+---
+interface Props {
+  title: string
+  mapEmbedUrl: string
+  address: string
+  phone: string
+  email: string
+}
+
+const { title, mapEmbedUrl, address, phone, email } = Astro.props
+---
+
+<section class="contact-module">
+  <div class="contact-module__inner">
+    <div class="contact-module__map">
+      <iframe
+        src={mapEmbedUrl}
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title={`Standort ${title}`}
+      ></iframe>
+    </div>
+    <div class="contact-module__details">
+      <h2 class="contact-module__title">{title}</h2>
+      <div class="contact-module__item">
+        <p class="contact-module__label">Adresse</p>
+        <p class="contact-module__value" set:html={address.replace(/\n/g, '<br />')} />
+      </div>
+      <div class="contact-module__item">
+        <p class="contact-module__label">Telefon</p>
+        <p class="contact-module__value">
+          <a href={`tel:${phone.replace(/\s/g, '')}`} class="contact-module__link">{phone}</a>
+        </p>
+      </div>
+      <div class="contact-module__item">
+        <p class="contact-module__label">E-Mail</p>
+        <p class="contact-module__value">
+          <a href={`mailto:${email}`} class="contact-module__link">{email}</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

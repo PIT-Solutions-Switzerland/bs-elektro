@@ -1,0 +1,44 @@
+---
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
+import { getSiteSettings, getNavigation } from '../lib/queries'
+import { urlFor } from '../lib/sanity'
+import '../styles/global.css'
+
+interface Props {
+  title?: string
+  description?: string
+}
+
+const {
+  title = 'BS Elektro AG – Elektroinstallationen in Rapperswil-Jona',
+  description = 'BS Elektro AG – Ihr Partner für Elektroinstallationen in Rapperswil-Jona. Planung, Installation und Service für öffentliche Auftraggeber und Unternehmen.',
+} = Astro.props
+
+const [siteSettings, navigation] = await Promise.all([getSiteSettings(), getNavigation()])
+const logoUrl = siteSettings?.logo ? urlFor(siteSettings.logo).url() : '/assets/logo.svg'
+const logoAlt = siteSettings?.logo?.alt || 'BS Elektro AG'
+const faviconUrl = siteSettings?.favicon ? urlFor(siteSettings.favicon).width(64).url() : null
+const navItems = navigation?.items || []
+---
+
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    {faviconUrl && <link rel="icon" href={faviconUrl} />}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    {siteSettings?.customHeadTags && <Fragment set:html={siteSettings.customHeadTags} />}
+  </head>
+  <body>
+    <Header logoUrl={logoUrl} logoAlt={logoAlt} navItems={navItems} />
+    <main id="main-content">
+      <slot />
+    </main>
+    <Footer navItems={navItems} footerLinks={siteSettings?.footerLinks || []} />
+  </body>
+</html>

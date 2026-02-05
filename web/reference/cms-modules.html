@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMS Module Library – BS Elektro AG</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --color-nav: #252821;
+        --color-green: #4CB63C;
+        --color-green-dark: #3a9c2d;
+        --color-white: #ffffff;
+        --color-black: #1A1A1A;
+        --color-gray-100: #F5F5F5;
+        --color-gray-200: #E0E0E0;
+        --color-gray-600: #666666;
+        
+        --font-display: "Bebas Neue", sans-serif;
+        --font-body: Roboto, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+        
+        --page-padding: 60px;
+        --page-padding-tablet: 32px;
+        --page-padding-mobile: 24px;
+        --max-width: 1400px;
+        
+        --transition-fast: 0.2s ease;
+      }
+
+      *, *::before, *::after { box-sizing: border-box; }
+      html { 
+        scroll-behavior: smooth;
+      }
+      
+      body {
+        margin: 0;
+        font-family: var(--font-body);
+        font-size: 16px;
+        color: var(--color-black);
+        background: var(--color-white);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+      
+      a { color: inherit; }
+      img { display: block; max-width: 100%; height: auto; }
+
+      /* Accessibility */
+      .skip-link {
+        position: absolute;
+        top: -100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--color-green);
+        color: var(--color-white);
+        padding: 12px 24px;
+        text-decoration: none;
+        font-weight: 600;
+        z-index: 100;
+      }
+      .skip-link:focus { top: 0; }
+      a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+        outline: 2px solid var(--color-green);
+        outline-offset: 2px;
+      }
+
+      /* Header */
+      .header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: var(--color-nav);
+        color: var(--color-white);
+      }
+      .header::after {
+        content: '';
+        display: block;
+        height: 3px;
+        background: var(--color-green);
+      }
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 96px;
+        padding: 0 var(--page-padding);
+        max-width: var(--max-width);
+        margin: 0 auto;
+      }
+      .nav__logo img {
+        height: 52px;
+        width: auto;
+        filter: brightness(0) invert(1);
+      }
+      .nav__links {
+        display: none;
+        gap: 48px;
+        align-items: center;
+        font-size: 17px;
+        font-weight: 500;
+      }
+      .nav__link {
+        text-decoration: none;
+      }
+      .nav__link:hover {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+      .nav__btn {
+        display: inline-block;
+        background: var(--color-green);
+        color: var(--color-white);
+        padding: 14px 32px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background var(--transition-fast);
+      }
+      .nav__btn:hover { background: var(--color-green-dark); }
+
+      /* Mobile menu */
+      .nav__mobile-toggle {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        width: 32px;
+        height: 32px;
+        padding: 4px;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+      .nav__mobile-toggle span {
+        display: block;
+        width: 100%;
+        height: 2px;
+        background: var(--color-white);
+        transition: transform var(--transition-fast), opacity var(--transition-fast);
+      }
+      .nav__mobile-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .nav__mobile-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+      .nav__mobile-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+      
+      .nav__mobile-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--color-nav);
+        padding: 24px var(--page-padding-mobile);
+        border-top: 1px solid rgba(255,255,255,0.1);
+      }
+      .nav__mobile-menu.is-open { display: block; }
+      .nav__mobile-menu a {
+        display: block;
+        padding: 12px 0;
+        text-decoration: none;
+        font-size: 16px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      .nav__mobile-menu a:last-child { border-bottom: none; }
+      .nav__mobile-menu .nav__btn {
+        display: block;
+        text-align: center;
+        margin-top: 16px;
+      }
+
+      /* ==========================================================================
+         MODULE: Section Header
+         ========================================================================== */
+      .section-header {
+        padding: 100px var(--page-padding) 80px;
+      }
+      .section-header__inner {
+        max-width: var(--max-width);
+        margin: 0 auto;
+      }
+      .section-header__label {
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--color-green);
+        margin: 0 0 16px;
+      }
+      .section-header__title {
+        font-family: var(--font-display);
+        font-size: 56px;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        line-height: 1.05;
+        margin: 0 0 24px;
+      }
+      .section-header__intro {
+        font-size: 20px;
+        line-height: 1.6;
+        max-width: 800px;
+        margin: 0;
+        color: var(--color-gray-600);
+      }
+
+      /* ==========================================================================
+         MODULE: Content Module
+         ========================================================================== */
+      .content-module {
+        padding: 80px var(--page-padding);
+      }
+      .content-module__inner {
+        max-width: var(--max-width);
+        margin: 0 auto;
+      }
+      .content-module__h2 {
+        font-size: 36px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        margin: 0 0 24px;
+      }
+      .content-module__text {
+        font-size: 17px;
+        line-height: 1.7;
+        max-width: 800px;
+        margin: 0 0 40px;
+      }
+      .content-module__h3 {
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        margin: 0 0 16px;
+      }
+      .content-module__text:last-child {
+        margin-bottom: 0;
+      }
+
+      /* ==========================================================================
+         MODULE: Image Text Module
+         ========================================================================== */
+      .image-text {
+        padding: 80px var(--page-padding);
+        background: var(--color-gray-100);
+      }
+      .image-text__inner {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 64px;
+        align-items: center;
+      }
+      .image-text__image {
+        aspect-ratio: 4/3;
+        overflow: hidden;
+        background: var(--color-gray-200);
+      }
+      .image-text__image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .image-text__content {
+        padding: 20px 0;
+      }
+      .image-text__title {
+        font-size: 32px;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        margin: 0 0 20px;
+      }
+      .image-text__text {
+        font-size: 17px;
+        line-height: 1.7;
+        margin: 0 0 24px;
+        color: var(--color-gray-600);
+      }
+      .image-text__btn {
+        display: inline-block;
+        background: var(--color-green);
+        color: var(--color-white);
+        padding: 14px 32px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background var(--transition-fast);
+      }
+      .image-text__btn:hover {
+        background: var(--color-green-dark);
+      }
+      
+      /* Variant: Image right */
+      .image-text--reversed .image-text__inner {
+        direction: rtl;
+      }
+      .image-text--reversed .image-text__inner > * {
+        direction: ltr;
+      }
+
+      /* ==========================================================================
+         MODULE: Referenzen Overview
+         ========================================================================== */
+      .referenzen {
+        padding: 80px var(--page-padding);
+      }
+      .referenzen__inner {
+        max-width: var(--max-width);
+        margin: 0 auto;
+      }
+      .referenzen__title {
+        font-family: var(--font-display);
+        font-size: 56px;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        margin: 0 0 48px;
+      }
+      .referenzen__grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+      .referenzen__card {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        transition: transform var(--transition-fast);
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        text-align: left;
+        width: 100%;
+      }
+      .referenzen__card:hover {
+        transform: translateY(-4px);
+      }
+      .referenzen__card-image {
+        aspect-ratio: 4/3;
+        overflow: hidden;
+        background: var(--color-gray-200);
+        margin-bottom: 16px;
+      }
+      .referenzen__card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform var(--transition-fast);
+      }
+      .referenzen__card:hover .referenzen__card-image img {
+        transform: scale(1.03);
+      }
+      .referenzen__card-title {
+        font-size: 18px;
+        font-weight: 700;
+        margin: 0;
+      }
+
+      /* ==========================================================================
+         MODULE: Referenz Overlay
+         ========================================================================== */
+      .referenz-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        background: var(--color-white);
+        overflow-y: auto;
+        display: none;
+      }
+      .referenz-overlay.is-open {
+        display: block;
+      }
+      .referenz-overlay__header {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: var(--color-nav);
+        padding: 24px var(--page-padding);
+        display: flex;
+        justify-content: flex-end;
+      }
+      .referenz-overlay__close {
+        background: none;
+        border: none;
+        color: var(--color-white);
+        font-size: 32px;
+        line-height: 1;
+        cursor: pointer;
+        padding: 8px;
+        transition: opacity var(--transition-fast);
+      }
+      .referenz-overlay__close:hover {
+        opacity: 0.7;
+      }
+      .referenz-overlay__image {
+        width: 100%;
+        height: 50vh;
+        min-height: 300px;
+        overflow: hidden;
+        background: var(--color-gray-200);
+      }
+      .referenz-overlay__image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .referenz-overlay__content {
+        padding: 64px var(--page-padding);
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+      .referenz-overlay__title {
+        font-family: var(--font-display);
+        font-size: 48px;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        margin: 0 0 8px;
+      }
+      .referenz-overlay__address {
+        font-size: 15px;
+        color: var(--color-gray-600);
+        margin: 0 0 48px;
+      }
+      .referenz-overlay__grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 48px 64px;
+      }
+      .referenz-overlay__section {
+        margin-bottom: 32px;
+      }
+      .referenz-overlay__section:last-child {
+        margin-bottom: 0;
+      }
+      .referenz-overlay__section--full {
+        grid-column: 1 / -1;
+      }
+      .referenz-overlay__label {
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--color-green);
+        margin: 0 0 12px;
+      }
+      .referenz-overlay__text {
+        font-size: 17px;
+        line-height: 1.7;
+        margin: 0;
+      }
+      .referenz-overlay__list {
+        font-size: 17px;
+        line-height: 1.7;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+      .referenz-overlay__list li {
+        padding-left: 20px;
+        position: relative;
+        margin-bottom: 8px;
+      }
+      .referenz-overlay__list li::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 10px;
+        width: 6px;
+        height: 6px;
+        background: var(--color-green);
+      }
+
+      /* ==========================================================================
+         MODULE: Dienstleistungen Cards
+         ========================================================================== */
+      .dienstleistungen {
+        padding: 80px var(--page-padding);
+        background: var(--color-white);
+      }
+      .dienstleistungen__inner {
+        max-width: var(--max-width);
+        margin: 0 auto;
+      }
+      .dienstleistungen__label {
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin: 0 0 16px;
+        color: var(--color-green);
+      }
+      .dienstleistungen__title {
+        font-family: var(--font-display);
+        font-size: 56px;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        margin: 0 0 48px;
+      }
+      .dienstleistungen__grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2px;
+        background: var(--color-gray-200);
+      }
+      .dienstleistungen__card {
+        background: var(--color-gray-100);
+        padding: 40px;
+      }
+      .dienstleistungen__card-num {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--color-green);
+        margin-bottom: 16px;
+      }
+      .dienstleistungen__card-title {
+        font-size: 24px;
+        font-weight: 700;
+        margin: 0 0 20px;
+      }
+      .dienstleistungen__card-text {
+        font-size: 15px;
+        line-height: 1.7;
+        margin: 0;
+        color: var(--color-gray-600);
+      }
+
+      /* ==========================================================================
+         MODULE: Contact Module (Map + Details)
+         ========================================================================== */
+      .contact-module {
+        padding: 80px var(--page-padding);
+        background: var(--color-gray-100);
+      }
+      .contact-module__inner {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+      }
+      .contact-module__map {
+        aspect-ratio: 1/1;
+        background: var(--color-gray-200);
+        min-height: 400px;
+      }
+      .contact-module__map iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+      .contact-module__details {
+        background: var(--color-white);
+        padding: 48px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .contact-module__title {
+        font-size: 32px;
+        font-weight: 700;
+        margin: 0 0 32px;
+      }
+      .contact-module__item {
+        margin-bottom: 24px;
+      }
+      .contact-module__item:last-child {
+        margin-bottom: 0;
+      }
+      .contact-module__label {
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--color-green);
+        margin-bottom: 8px;
+      }
+      .contact-module__value {
+        font-size: 17px;
+        line-height: 1.6;
+      }
+      .contact-module__link {
+        text-decoration: none;
+        transition: color var(--transition-fast);
+      }
+      .contact-module__link:hover {
+        color: var(--color-green);
+      }
+
+      /* ==========================================================================
+         MODULE: Contact Form
+         ========================================================================== */
+      .contact-form {
+        padding: 80px var(--page-padding);
+      }
+      .contact-form__inner {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .contact-form__title {
+        font-size: 36px;
+        font-weight: 700;
+        margin: 0 0 16px;
+      }
+      .contact-form__intro {
+        font-size: 17px;
+        color: var(--color-gray-600);
+        margin: 0 0 40px;
+      }
+      .contact-form__form {
+        display: grid;
+        gap: 24px;
+      }
+      .contact-form__row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      }
+      .contact-form__field {
+        display: flex;
+        flex-direction: column;
+      }
+      .contact-form__label {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      .contact-form__label--required::after {
+        content: ' *';
+        color: var(--color-green);
+      }
+      .contact-form__input,
+      .contact-form__select,
+      .contact-form__textarea {
+        padding: 14px 16px;
+        font-family: var(--font-body);
+        font-size: 16px;
+        border: 1px solid var(--color-gray-200);
+        background: var(--color-white);
+        transition: border-color var(--transition-fast);
+      }
+      .contact-form__input:focus,
+      .contact-form__select:focus,
+      .contact-form__textarea:focus {
+        border-color: var(--color-green);
+        outline: none;
+      }
+      .contact-form__textarea {
+        min-height: 160px;
+        resize: vertical;
+      }
+      .contact-form__submit {
+        justify-self: start;
+        background: var(--color-green);
+        color: var(--color-white);
+        border: none;
+        padding: 16px 40px;
+        font-family: var(--font-body);
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background var(--transition-fast);
+      }
+      .contact-form__submit:hover {
+        background: var(--color-green-dark);
+      }
+
+      /* ==========================================================================
+         MODULE: Management Module
+         ========================================================================== */
+      .management {
+        padding: 80px var(--page-padding);
+      }
+      .management__inner {
+        max-width: var(--max-width);
+        margin: 0 auto;
+      }
+      .management__title {
+        font-size: 36px;
+        font-weight: 700;
+        margin: 0 0 48px;
+      }
+      .management__grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px;
+      }
+      .management__card {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        background: var(--color-gray-100);
+      }
+      .management__card-image {
+        overflow: hidden;
+        background: var(--color-gray-200);
+      }
+      .management__card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .management__card-content {
+        padding: 32px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .management__card-name {
+        font-size: 24px;
+        font-weight: 700;
+        margin: 0 0 4px;
+      }
+      .management__card-role {
+        font-size: 15px;
+        color: var(--color-green);
+        font-weight: 600;
+        margin: 0 0 20px;
+      }
+      .management__card-text {
+        font-size: 15px;
+        line-height: 1.7;
+        margin: 0 0 20px;
+        color: var(--color-gray-600);
+      }
+      .management__card-contact {
+        margin-top: auto;
+      }
+      .management__card-link {
+        display: block;
+        font-size: 15px;
+        text-decoration: none;
+        color: var(--color-black);
+        margin-bottom: 4px;
+        transition: color var(--transition-fast);
+      }
+      .management__card-link:hover {
+        color: var(--color-green);
+      }
+
+      /* ==========================================================================
+         Footer
+         ========================================================================== */
+      .footer {
+        background: var(--color-green);
+        color: var(--color-white);
+        padding: 80px var(--page-padding);
+      }
+      .footer__inner {
+        max-width: var(--max-width);
+        margin: 0 auto;
+      }
+      .footer__grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+      }
+      .footer__nav-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0 0 12px;
+      }
+      .footer__nav-link {
+        display: block;
+        margin-top: 12px;
+        text-decoration: none;
+      }
+      .footer__nav-link:hover {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+      .footer__address {
+        font-style: normal;
+        line-height: 1.7;
+      }
+      .footer__company-name {
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+      .footer__socket {
+        border-top: 1px solid rgba(255,255,255,0.2);
+        margin-top: 40px;
+        padding-top: 24px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+      }
+      .footer__socket-links {
+        display: flex;
+        gap: 32px;
+      }
+      .footer__socket-link {
+        color: inherit;
+        text-decoration: none;
+      }
+      .footer__socket-link:hover {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+
+      /* ==========================================================================
+         Module Divider (for demo page only)
+         ========================================================================== */
+      .module-divider {
+        padding: 40px var(--page-padding);
+        background: var(--color-nav);
+        color: var(--color-white);
+      }
+      .module-divider__inner {
+        max-width: var(--max-width);
+        margin: 0 auto;
+      }
+      .module-divider__title {
+        font-family: var(--font-display);
+        font-size: 24px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin: 0;
+        opacity: 0.6;
+      }
+
+      /* ==========================================================================
+         Responsive
+         ========================================================================== */
+      @media (max-width: 1024px) {
+        .nav { padding: 0 var(--page-padding-tablet); }
+        .section-header { padding: 80px var(--page-padding-tablet) 60px; }
+        .content-module { padding: 60px var(--page-padding-tablet); }
+        .image-text { padding: 60px var(--page-padding-tablet); }
+        .image-text__inner { gap: 40px; }
+        .referenzen { padding: 60px var(--page-padding-tablet); }
+        .referenzen__grid { grid-template-columns: repeat(2, 1fr); }
+        .dienstleistungen { padding: 60px var(--page-padding-tablet); }
+        .contact-module { padding: 60px var(--page-padding-tablet); }
+        .contact-form { padding: 60px var(--page-padding-tablet); }
+        .management { padding: 60px var(--page-padding-tablet); }
+        .footer { padding: 60px var(--page-padding-tablet); }
+        .module-divider { padding: 32px var(--page-padding-tablet); }
+      }
+
+      @media (max-width: 768px) {
+        .nav { padding: 0 var(--page-padding-mobile); }
+        .section-header { padding: 60px var(--page-padding-mobile) 48px; }
+        .section-header__title { font-size: 40px; }
+        .section-header__intro { font-size: 17px; }
+        
+        .content-module { padding: 48px var(--page-padding-mobile); }
+        .content-module__h2 { font-size: 28px; }
+        .content-module__h3 { font-size: 20px; }
+        
+        .image-text { padding: 48px var(--page-padding-mobile); }
+        .image-text__inner { grid-template-columns: 1fr; gap: 32px; }
+        .image-text--reversed .image-text__inner { direction: ltr; }
+        .image-text__title { font-size: 26px; }
+        
+        .referenzen { padding: 48px var(--page-padding-mobile); }
+        .referenzen__title { font-size: 40px; }
+        .referenzen__grid { grid-template-columns: 1fr; gap: 32px; }
+        
+        .referenz-overlay__header { padding: 16px var(--page-padding-mobile); }
+        .referenz-overlay__image { height: 40vh; min-height: 240px; }
+        .referenz-overlay__content { padding: 40px var(--page-padding-mobile); }
+        .referenz-overlay__title { font-size: 32px; }
+        .referenz-overlay__grid { grid-template-columns: 1fr; gap: 32px; }
+        .referenz-overlay__section--full { grid-column: 1; }
+        
+        .dienstleistungen { padding: 48px var(--page-padding-mobile); }
+        .dienstleistungen__title { font-size: 40px; }
+        .dienstleistungen__grid { grid-template-columns: 1fr; }
+        .dienstleistungen__card { padding: 32px 24px; }
+        
+        .contact-module { padding: 0; }
+        .contact-module__inner { grid-template-columns: 1fr; }
+        .contact-module__map { min-height: 300px; }
+        .contact-module__details { padding: 40px var(--page-padding-mobile); }
+        .contact-module__title { font-size: 26px; }
+        
+        .contact-form { padding: 48px var(--page-padding-mobile); }
+        .contact-form__title { font-size: 28px; }
+        .contact-form__row { grid-template-columns: 1fr; }
+        
+        .management { padding: 48px var(--page-padding-mobile); }
+        .management__title { font-size: 28px; }
+        .management__grid { grid-template-columns: 1fr; }
+        .management__card { grid-template-columns: 1fr; }
+        .management__card-image { height: 280px; }
+        .management__card-content { padding: 24px; }
+        
+        .footer { padding: 48px var(--page-padding-mobile); }
+        .footer__grid { grid-template-columns: 1fr; gap: 40px; }
+        .footer__socket { flex-direction: column; gap: 16px; text-align: center; }
+        .footer__socket-links { justify-content: center; }
+        
+        .module-divider { padding: 24px var(--page-padding-mobile); }
+      }
+
+      @media (min-width: 769px) {
+        .nav__links { display: flex; }
+        .nav__mobile-toggle { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Zum Inhalt springen</a>
+
+    <header class="header">
+      <nav class="nav">
+        <div class="nav__logo">
+          <a href="/" aria-label="BS Elektro AG – Startseite">
+            <img src="/assets/logo.svg" alt="BS Elektro AG" />
+          </a>
+        </div>
+        <div class="nav__links">
+          <a href="/ueber-uns" class="nav__link">Über uns</a>
+          <a href="/#services" class="nav__link">Dienstleistungen</a>
+          <a href="/#contact" class="nav__link">Kontakt</a>
+          <a href="/#contact" class="nav__btn">Kontakt</a>
+        </div>
+        <button class="nav__mobile-toggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobile-menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
+      <div id="mobile-menu" class="nav__mobile-menu">
+        <a href="/ueber-uns">Über uns</a>
+        <a href="/#services">Dienstleistungen</a>
+        <a href="/#contact">Kontakt</a>
+        <a href="/#contact" class="nav__btn">Kontakt</a>
+      </div>
+    </header>
+
+    <main id="main-content">
+
+      <!-- ============================================================
+           MODULE: Section Header
+           ============================================================ -->
+      <div class="module-divider">
+        <div class="module-divider__inner">
+          <p class="module-divider__title">Module: Section Header</p>
+        </div>
+      </div>
+      
+      <header class="section-header">
+        <div class="section-header__inner">
+          <p class="section-header__label">Über uns</p>
+          <h1 class="section-header__title">An Ihrer Seite, wenn es um Strom geht</h1>
+          <p class="section-header__intro">
+            BS Elektro AG steht für zuverlässige Elektroinstallationen in der Region Rapperswil-Jona. 
+            Von der Planung bis zur Umsetzung – wir begleiten Sie persönlich.
+          </p>
+        </div>
+      </header>
+
+      <!-- ============================================================
+           MODULE: Content Module
+           ============================================================ -->
+      <div class="module-divider">
+        <div class="module-divider__inner">
+          <p class="module-divider__title">Module: Content Module</p>
+        </div>
+      </div>
+
+      <section class="content-module">
+        <div class="content-module__inner">
+          <h2 class="content-module__h2">Elektroinstallationen mit System</h2>
+          <p class="content-module__text">
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+          </p>
+          <h3 class="content-module__h3">Qualität, die überzeugt</h3>
+          <p class="content-module__text">
+            Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+          </p>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           MODULE: Image Text Module
+           ============================================================ -->
+      <div class="module-divider">
+        <div class="module-divider__inner">
+          <p class="module-divider__title">Module: Image Text (Image Left)</p>
+        </div>
+      </div>
+
+      <section class="image-text">
+        <div class="image-text__inner">
+          <div class="image-text__image">
+            <img src="/assets/images/placeholder.jpg" alt="Elektriker bei der Arbeit" />
+          </div>
+          <div class="image-text__content">
+            <h2 class="image-text__title">Persönliche Betreuung von A bis Z</h2>
+            <p class="image-text__text">
+              Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+            </p>
+            <a href="/kontakt" class="image-text__btn">Mehr erfahren</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           MODULE: Image Text Module (Reversed)
+           ============================================================ -->
+      <div class="module-divider">
+        <div class="module-divider__inner">
+          <p class="module-divider__title">Module: Image Text (Image Right)</p>
+        </div>
+      </div>
+
+      <section class="image-text image-text--reversed">
+        <div class="image-text__inner">
+          <div class="image-text__image">
+            <img src="/assets/images/placeholder.jpg" alt="Elektroinstallation" />
+          </div>
+          <div class="image-text__content">
+            <h2 class="image-text__title">Zuverlässig und termingerecht</h2>
+            <p class="image-text__text">
+              Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat.
+            </p>
+            <a href="/kontakt" class="image-text__btn">Kontakt aufnehmen</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           MODULE: Referenzen Overview
+           ============================================================ -->
+      <div class="module-divider">
+        <div class="module-divider__inner">
+          <p class="module-divider__title">Module: Referenzen Overview</p>
+        </div>
+      </div>
+
+      <section class="referenzen">
+        <div class="referenzen__inner">
+          <h2 class="referenzen__title">Referenzen</h2>
+          <div class="referenzen__grid">
+            <button type="button" class="referenzen__card" data-referenz="e-mobility">
+              <div class="referenzen__card-image">
+                <img src="/assets/images/referenz-01.jpg" alt="E-Mobility Alpenblickstrasse" />
+              </div>
+              <h3 class="referenzen__card-title">E-Mobility Alpenblickstrasse</h3>
+            </button>
+            <button type="button" class="referenzen__card" data-referenz="neubau-schule">
+              <div class="referenzen__card-image">
+                <img src="/assets/images/referenz-02.jpg" alt="Neubau Schulhaus Jona" />
+              </div>
+              <h3 class="referenzen__card-title">Neubau Schulhaus Jona</h3>
+            </button>
+            <button type="button" class="referenzen__card" data-referenz="sanierung-mfh">
+              <div class="referenzen__card-image">
+                <img src="/assets/images/referenz-03.jpg" alt="Sanierung MFH Rapperswil" />
+              </div>
+              <h3 class="referenzen__card-title">Sanierung MFH Rapperswil</h3>
+            </button>
+            <button type="button" class="referenzen__card" data-referenz="gewerbe">
+              <div class="referenzen__card-image">
+                <img src="/assets/images/referenz-04.jpg" alt="Gewerbe Rüti" />
+              </div>
+              <h3 class="referenzen__card-title">Gewerbe Rüti</h3>
+            </button>
+            <button type="button" class="referenzen__card" data-referenz="photovoltaik">
+              <div class="referenzen__card-image">
+                <img src="/assets/images/referenz-05.jpg" alt="Photovoltaik EFH Eschenbach" />
+              </div>
+              <h3 class="referenzen__card-title">Photovoltaik EFH Eschenbach</h3>
+            </button>
+            <button type="button" class="referenzen__card" data-referenz="industrie">
+              <div class="referenzen__card-image">
+                <img src="/assets/images/referenz-06.jpg" alt="Industrieanlage Uznach" />
+              </div>
+              <h3 class="referenzen__card-title">Industrieanlage Uznach</h3>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           MODULE: Referenz Overlay
+           ============================================================ -->
+      <div class="module-divider">
+        <div class="module-divider__inner">
+          <p class="module-divider__title">Module: Referenz Overlay (click a Referenz card above to open)</p>
+        </div>
+      </div>
+
+      <aside id="referenz-overlay" class="referenz-overlay" aria-hidden="true">
+        <div class="referenz-overlay__header">
+          <button type="button" class="referenz-overlay__close" aria-label="Schliessen">&times;</button>
+        </div>
+        <div class="referenz-overlay__image">
+          <img src="/assets/images/referenz-01.jpg" alt="E-Mobility Alpenblickstrasse" />
+        </div>
+        <div class="referenz-overlay__content">
+          <h2 class="referenz-overlay__title">E-Mobility Alpenblickstrasse</h2>
+          <p class="referenz-overlay__address">Alpenblickstrasse 32, 8645 Jona</p>
+          
+          <div class="referenz-overlay__grid">
+            <div class="referenz-overlay__section referenz-overlay__section--full">
+              <p class="referenz-overlay__label">Objektbeschreibung</p>
+              <p class="referenz-overlay__text">Grundausbau mit Flachbandkabel und Installation von Ladestationen und Lademanagement</p>
+            </div>
+            
+            <div class="referenz-overlay__section">
+              <p class="referenz-overlay__label">Fertigstellung</p>
+              <p class="referenz-overlay__text">2024</p>
+            </div>
+            
+            <div class="referenz-overlay__section">
+              <p class="referenz-overlay__label">Bauart</p>
+              <p class="referenz-overlay__text">Umbau</p>
+            </div>
+            
+            <div class="referenz-overlay__section referenz-overlay__section--full">
+              <p class="referenz-overlay__label">Leistungsbeschreibung</p>
+              <ul class="referenz-overlay__list">
+                <li>Ausführung von Stark- und Schwachstrominstallation</li>
+                <li>Installation von Flachbandkabel</li>
+                <li>Ausbau von Verteilung für Lademanagement</li>
+                <li>Installation und Programmierung von Ladestationen in der Garage</li>
+              </ul>
+            </div>
+            
+            <div class="referenz-overlay__section referenz-overlay__section--full">
+              <p class="referenz-overlay__label">Bauherrschaft</p>
+              <p class="referenz-overlay__text">MEG Paradies Jona, Jona</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- ============================================================
+           MODULE: Dienstleistungen Cards
+           ============================================================ -->
+      <div class="module-divider">
+        <div class="module-divider__inner">
+          <p class="module-divider__title">Module: Dienstleistungen Cards</p>
+        </div>
+      </div>
+
+      <section class="dienstleistungen">
+        <div class="dienstleistungen__inner">
+          <p class="dienstleistungen__label">Dienstleistungen</p>
+          <h2 class="dienstleistungen__title">Was wir tun</h2>
+          <div class="dienstleistungen__grid">
+            <div class="dienstleistungen__card">
+              <div class="dienstleistungen__card-num">01</div>
+              <h3 class="dienstleistungen__card-title">Neubauten und Umbauten</h3>
+              <p class="dienstleistungen__card-text">
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+              </p>
+            </div>
+            <div class="dienstleistungen__card">
+              <div class="dienstleistungen__card-num">02</div>
+              <h3 class="dienstleistungen__card-title">Service, Sicherheit &amp; Wartung</h3>
+              <p class="dienstleistungen__card-text">
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+              </p>
+            </div>
+            <div class="dienstleistungen__card">
+              <div class="dienstleistungen__card-num">03</div>
+              <h3 class="dienstleistungen__card-title">Lichtinstallationen</h3>
+              <p class="dienstleistungen__card-text">
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+              </p>
+            </div>
+            <div class="dienstleistungen__card">
+              <div class="dienstleistungen__card-num">04</div>
+              <h3 class="dienstleistungen__card-title">Kommunikationslösungen</h3>
+              <p class="dienstleistungen__card-text">
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+              </p>
+            </div>
+            <div class="dienstleistungen__card">
+              <div class="dienstleistungen__card-num">05</div>
+              <h3 class="dienstleistungen__card-title">Gebäudeautomatisationen</h3>
+              <p class="dienstleistungen__card-text">
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+              </p>
+            </div>
+            <div class="dienstleistungen__card">
+              <div class="dienstleistungen__card-num">06</div>
+              <h3 class="dienstleistungen__card-title">Photovoltaik</h3>
+              <p class="dienstleistungen__card-text">
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           MODULE: Contact Module (Map + Details)
+           ============================================================ -->
+      <div class="module-divider">
+        <div class="module-divider__inner">
+          <p class="module-divider__title">Module: Contact Module</p>
+        </div>
+      </div>
+
+      <section class="contact-module">
+        <div class="contact-module__inner">
+          <div class="contact-module__map">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2719.123456789!2d8.8456789!3d47.2345678!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDfCsDE0JzA0LjQiTiA4wrA1MCc0NC40IkU!5e0!3m2!1sde!2sch!4v1234567890"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Standort BS Elektro AG"
+            ></iframe>
+          </div>
+          <div class="contact-module__details">
+            <h2 class="contact-module__title">Kontakt</h2>
+            <div class="contact-module__item">
+              <p class="contact-module__label">Adresse</p>
+              <p class="contact-module__value">
+                Baumgartner &amp; Stillhard Elektro AG<br />
+                Holzwiesstrasse 35<br />
+                8645 Jona
+              </p>
+            </div>
+            <div class="contact-module__item">
+              <p class="contact-module__label">Telefon</p>
+              <p class="contact-module__value">
+                <a href="tel:+41552205522" class="contact-module__link">055 220 55 22</a>
+              </p>
+            </div>
+            <div class="contact-module__item">
+              <p class="contact-module__label">E-Mail</p>
+              <p class="contact-module__value">
+                <a href="mailto:info@bs-elektro-ag.ch" class="contact-module__link">info@bs-elektro-ag.ch</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           MODULE: Contact Form
+           ============================================================ -->
+      <div class="module-divider">
+        <div class="module-divider__inner">
+          <p class="module-divider__title">Module: Contact Form</p>
+        </div>
+      </div>
+
+      <section class="contact-form">
+        <div class="contact-form__inner">
+          <h2 class="contact-form__title">Schreiben Sie uns</h2>
+          <p class="contact-form__intro">Wir melden uns innert 24 Stunden bei Ihnen.</p>
+          <form class="contact-form__form" action="/api/contact" method="POST">
+            <div class="contact-form__row">
+              <div class="contact-form__field">
+                <label class="contact-form__label contact-form__label--required" for="firstname">Vorname</label>
+                <input class="contact-form__input" type="text" id="firstname" name="firstname" required />
+              </div>
+              <div class="contact-form__field">
+                <label class="contact-form__label contact-form__label--required" for="lastname">Nachname</label>
+                <input class="contact-form__input" type="text" id="lastname" name="lastname" required />
+              </div>
+            </div>
+            <div class="contact-form__row">
+              <div class="contact-form__field">
+                <label class="contact-form__label contact-form__label--required" for="email">E-Mail</label>
+                <input class="contact-form__input" type="email" id="email" name="email" required />
+              </div>
+              <div class="contact-form__field">
+                <label class="contact-form__label" for="phone">Telefon</label>
+                <input class="contact-form__input" type="tel" id="phone" name="phone" />
+              </div>
+            </div>
+            <div class="contact-form__field">
+              <label class="contact-form__label" for="subject">Betreff</label>
+              <select class="contact-form__select" id="subject" name="subject">
+                <option value="">Bitte wählen</option>
+                <option value="offerte">Offertanfrage</option>
+                <option value="service">Serviceanfrage</option>
+                <option value="job">Bewerbung</option>
+                <option value="other">Anderes</option>
+              </select>
+            </div>
+            <div class="contact-form__field">
+              <label class="contact-form__label contact-form__label--required" for="message">Nachricht</label>
+              <textarea class="contact-form__textarea" id="message" name="message" required></textarea>
+            </div>
+            <button type="submit" class="contact-form__submit">Nachricht senden</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           MODULE: Management Module
+           ============================================================ -->
+      <div class="module-divider">
+        <div class="module-divider__inner">
+          <p class="module-divider__title">Module: Management Module</p>
+        </div>
+      </div>
+
+      <section class="management">
+        <div class="management__inner">
+          <h2 class="management__title">Geschäftsleitung</h2>
+          <div class="management__grid">
+            <article class="management__card">
+              <div class="management__card-image">
+                <img src="/assets/images/peter-baumgartner.jpg" alt="Peter Baumgartner" />
+              </div>
+              <div class="management__card-content">
+                <h3 class="management__card-name">Peter Baumgartner</h3>
+                <p class="management__card-role">Geschäftsführer</p>
+                <p class="management__card-text">
+                  Über 20 Jahre Erfahrung in der Elektrobranche. Spezialisiert auf Projektleitung für Neubauten, Sanierungen und Gewerbebauten.
+                </p>
+                <div class="management__card-contact">
+                  <a href="tel:+41552205522" class="management__card-link">055 220 55 22</a>
+                  <a href="mailto:baumgartner@bs-elektro-ag.ch" class="management__card-link">baumgartner@bs-elektro-ag.ch</a>
+                </div>
+              </div>
+            </article>
+            <article class="management__card">
+              <div class="management__card-image">
+                <img src="/assets/images/gabriel-stillhard.jpg" alt="Gabriel Stillhard" />
+              </div>
+              <div class="management__card-content">
+                <h3 class="management__card-name">Gabriel Stillhard</h3>
+                <p class="management__card-role">Leiter Service</p>
+                <p class="management__card-text">
+                  Verantwortlich für Kundendienst, Wartung und Sicherheitsprüfungen. Schnell vor Ort, präzise in der Ausführung.
+                </p>
+                <div class="management__card-contact">
+                  <a href="tel:+41552205523" class="management__card-link">055 220 55 23</a>
+                  <a href="mailto:stillhard@bs-elektro-ag.ch" class="management__card-link">stillhard@bs-elektro-ag.ch</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="footer">
+      <div class="footer__inner">
+        <div class="footer__grid">
+          <nav aria-label="Footer-Navigation">
+            <h2 class="footer__nav-title">Navigation</h2>
+            <a href="/ueber-uns" class="footer__nav-link">Über uns</a>
+            <a href="/#services" class="footer__nav-link">Dienstleistungen</a>
+            <a href="/#contact" class="footer__nav-link">Kontakt</a>
+          </nav>
+          <address class="footer__address">
+            <p class="footer__company-name">Baumgartner &amp; Stillhard Elektro AG</p>
+            <p>Holzwiesstrasse 35<br />8645 Jona</p>
+          </address>
+        </div>
+        <div class="footer__socket">
+          <p>© Baumgartner &amp; Stillhard Elektro AG 2026</p>
+          <div class="footer__socket-links">
+            <a href="/datenschutz" class="footer__socket-link">Datenschutz</a>
+            <a href="/impressum" class="footer__socket-link">Impressum</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      (function() {
+        // Mobile menu
+        const toggle = document.querySelector('.nav__mobile-toggle');
+        const menu = document.getElementById('mobile-menu');
+        if (toggle && menu) {
+          toggle.addEventListener('click', function() {
+            const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+            toggle.setAttribute('aria-expanded', !isExpanded);
+            menu.classList.toggle('is-open');
+          });
+          menu.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function() {
+              toggle.setAttribute('aria-expanded', 'false');
+              menu.classList.remove('is-open');
+            });
+          });
+        }
+
+        // Referenz overlay
+        const overlay = document.getElementById('referenz-overlay');
+        const closeBtn = overlay?.querySelector('.referenz-overlay__close');
+        const referenzCards = document.querySelectorAll('.referenzen__card');
+
+        function openOverlay() {
+          overlay.classList.add('is-open');
+          overlay.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+        }
+
+        function closeOverlay() {
+          overlay.classList.remove('is-open');
+          overlay.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }
+
+        referenzCards.forEach(function(card) {
+          card.addEventListener('click', openOverlay);
+        });
+
+        closeBtn?.addEventListener('click', closeOverlay);
+
+        // Close on Escape key
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape' && overlay.classList.contains('is-open')) {
+            closeOverlay();
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

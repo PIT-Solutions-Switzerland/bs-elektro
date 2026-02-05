@@ -1,0 +1,46 @@
+---
+interface Props {
+  text: string
+}
+
+const { text } = Astro.props
+---
+
+<section class="usp">
+  <div class="usp__inner">
+    <p class="usp__text">{text}</p>
+  </div>
+</section>
+
+<style>
+  .usp {
+    padding: 100px var(--page-padding);
+    background: var(--color-white);
+  }
+  .usp__inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+  .usp__text {
+    max-width: 900px;
+    font-size: 28px;
+    line-height: 1.45;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  @media (max-width: 1024px) {
+    .usp {
+      padding: 80px var(--page-padding-tablet);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .usp {
+      padding: 60px var(--page-padding-mobile);
+    }
+    .usp__text {
+      font-size: 22px;
+    }
+  }
+</style>

@@ -1,0 +1,59 @@
+---
+import { urlFor } from '../../lib/sanity'
+
+interface CardItem {
+  _type: 'card'
+  number: string
+  title: string
+  description?: string
+  link?: string
+}
+
+interface ImageTileItem {
+  _type: 'imageTile'
+  image: any
+}
+
+type DienstleistungItem = CardItem | ImageTileItem
+
+interface Props {
+  _key?: string
+  label?: string
+  title: string
+  items: DienstleistungItem[]
+}
+
+const { _key, label, title, items } = Astro.props
+const isModule = !!_key
+---
+
+<section class="dienstleistungen">
+  <div class="dienstleistungen__inner">
+    {label && <p class="dienstleistungen__label">{label}</p>}
+    <h2 class="dienstleistungen__title">{title}</h2>
+    <div class:list={["dienstleistungen__grid", { "dienstleistungen__grid--2col": isModule }]}>
+      {items?.map((item) => {
+        if (item._type === 'card') {
+          const Tag = item.link ? 'a' : 'div'
+          const linkProps = item.link ? { href: item.link } : {}
+          return (
+            <Tag class="dienstleistungen__card" {...linkProps}>
+              <div class="dienstleistungen__card-num">{item.number}</div>
+              <h3 class="dienstleistungen__card-title">{item.title}</h3>
+              {item.description && <p class="dienstleistungen__card-text">{item.description}</p>}
+            </Tag>
+          )
+        } else if (item._type === 'imageTile') {
+          return (
+            <div class="dienstleistungen__tile">
+              <img
+                src={urlFor(item.image).width(600).height(400).url()}
+                alt={item.image.alt || ''}
+              />
+            </div>
+          )
+        }
+      })}
+    </div>
+  </div>
+</section>

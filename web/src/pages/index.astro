@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import ModuleRenderer from '../components/ModuleRenderer.astro'
+import DienstleistungenCards from '../components/modules/DienstleistungenCards.astro'
+import USP from '../components/USP.astro'
+import ContactSection from '../components/ContactSection.astro'
+import { urlFor } from '../lib/sanity'
+import { getHomepage } from '../lib/queries'
+import { toHTML } from '@portabletext/to-html'
+
+const homepage = await getHomepage()
+const hero = homepage?.hero
+const seoTitle = homepage?.seoTitle || 'BS Elektro AG – Elektroinstallationen in Rapperswil-Jona'
+const seoDescription = homepage?.seoDescription || 'BS Elektro AG – Ihr Partner für Elektroinstallationen in Rapperswil-Jona.'
+const contactTextHtml = hero?.contactText ? toHTML(hero.contactText) : ''
+---
+
+<BaseLayout title={seoTitle} description={seoDescription}>
+  {hero && (
+    <section class="hero">
+      <div class="hero__image">
+        <img src={urlFor(hero.image).width(1400).url()} alt="BS Elektro AG" />
+      </div>
+      <div class="hero__content">
+        <h1 class="hero__title">{hero.title}</h1>
+        {hero.subtitle && <p class="hero__subtitle">{hero.subtitle}</p>}
+        {contactTextHtml && (
+          <div class="hero__contact" set:html={contactTextHtml} />
+        )}
+      </div>
+    </section>
+  )}
+
+  {homepage?.usp && <USP text={homepage.usp} />}
+
+  {homepage?.dienstleistungen && (
+    <DienstleistungenCards
+      label={homepage.dienstleistungen.label}
+      title={homepage.dienstleistungen.title}
+      items={homepage.dienstleistungen.items}
+    />
+  )}
+
+  {homepage?.modules && <ModuleRenderer modules={homepage.modules} />}
+
+  {homepage?.contact?.contactPeople && homepage.contact.contactPeople.length > 0 && (
+    <ContactSection
+      label={homepage.contact.label}
+      title={homepage.contact.title}
+      contactPeople={homepage.contact.contactPeople}
+    />
+  )}
+</BaseLayout>

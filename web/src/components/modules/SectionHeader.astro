@@ -1,0 +1,17 @@
+---
+interface Props {
+  label?: string
+  title: string
+  intro?: string
+}
+
+const { label, title, intro } = Astro.props
+---
+
+<header class="section-header">
+  <div class="section-header__inner">
+    {label && <p class="section-header__label">{label}</p>}
+    <h2 class="section-header__title">{title}</h2>
+    {intro && <p class="section-header__intro">{intro}</p>}
+  </div>
+</header>

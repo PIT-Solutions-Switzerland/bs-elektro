@@ -1,0 +1,29 @@
+---
+import { toHTML } from '@portabletext/to-html'
+
+interface Props {
+  heading: string
+  content: any[]
+}
+
+const { heading, content } = Astro.props
+
+const html = toHTML(content, {
+  components: {
+    block: {
+      h3: ({ children }) => `<h3 class="content-module__h3">${children}</h3>`,
+      normal: ({ children }) => `<p class="content-module__text">${children}</p>`,
+    },
+    marks: {
+      link: ({ children, value }) => `<a href="${value.href}">${children}</a>`,
+    },
+  },
+})
+---
+
+<section class="content-module">
+  <div class="content-module__inner">
+    <h2 class="content-module__h2">{heading}</h2>
+    <Fragment set:html={html} />
+  </div>
+</section>

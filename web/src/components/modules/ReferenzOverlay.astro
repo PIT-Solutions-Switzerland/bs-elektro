@@ -1,0 +1,72 @@
+---
+import { urlFor } from '../../lib/sanity'
+
+interface Props {
+  referenz: {
+    _id: string
+    title: string
+    slug: { current: string }
+    image: any
+    address?: string
+    description: string
+    completionYear: string
+    buildType: string
+    buildingType?: string
+    services: string[]
+    client: string
+  }
+}
+
+const { referenz } = Astro.props
+---
+
+<aside id={`referenz-${referenz.slug.current}`} class="referenz-overlay" aria-hidden="true">
+  <div class="referenz-overlay__header">
+    <button type="button" class="referenz-overlay__close" aria-label="Schliessen">&times;</button>
+  </div>
+  <div class="referenz-overlay__image">
+    <img src={urlFor(referenz.image).width(1400).url()} alt={referenz.image.alt || referenz.title} />
+  </div>
+  <div class="referenz-overlay__content">
+    <h2 class="referenz-overlay__title">{referenz.title}</h2>
+    {referenz.address && <p class="referenz-overlay__address">{referenz.address}</p>}
+
+    <div class="referenz-overlay__grid">
+      <div class="referenz-overlay__section referenz-overlay__section--full">
+        <p class="referenz-overlay__label">Objektbeschreibung</p>
+        <p class="referenz-overlay__text">{referenz.description}</p>
+      </div>
+
+      <div class="referenz-overlay__section">
+        <p class="referenz-overlay__label">Fertigstellung</p>
+        <p class="referenz-overlay__text">{referenz.completionYear}</p>
+      </div>
+
+      <div class="referenz-overlay__section">
+        <p class="referenz-overlay__label">Bauart</p>
+        <p class="referenz-overlay__text">{referenz.buildType}</p>
+      </div>
+
+      {referenz.buildingType && (
+        <div class="referenz-overlay__section">
+          <p class="referenz-overlay__label">Gebäudeart</p>
+          <p class="referenz-overlay__text">{referenz.buildingType}</p>
+        </div>
+      )}
+
+      <div class="referenz-overlay__section referenz-overlay__section--full">
+        <p class="referenz-overlay__label">Leistungsbeschreibung</p>
+        <ul class="referenz-overlay__list">
+          {referenz.services.map((service) => (
+            <li>{service}</li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="referenz-overlay__section referenz-overlay__section--full">
+        <p class="referenz-overlay__label">Bauherrschaft</p>
+        <p class="referenz-overlay__text">{referenz.client}</p>
+      </div>
+    </div>
+  </div>
+</aside>

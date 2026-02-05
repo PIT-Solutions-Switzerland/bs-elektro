@@ -1,0 +1,60 @@
+---
+interface SubjectOption {
+  value: string
+  label: string
+}
+
+interface Props {
+  title: string
+  intro?: string
+  subjectOptions?: SubjectOption[]
+  submitLabel: string
+}
+
+const { title, intro, subjectOptions, submitLabel } = Astro.props
+---
+
+<section class="contact-form">
+  <div class="contact-form__inner">
+    <h2 class="contact-form__title">{title}</h2>
+    {intro && <p class="contact-form__intro">{intro}</p>}
+    <form class="contact-form__form" action="/api/contact" method="POST">
+      <div class="contact-form__row">
+        <div class="contact-form__field">
+          <label class="contact-form__label contact-form__label--required" for="firstname">Vorname</label>
+          <input class="contact-form__input" type="text" id="firstname" name="firstname" required />
+        </div>
+        <div class="contact-form__field">
+          <label class="contact-form__label contact-form__label--required" for="lastname">Nachname</label>
+          <input class="contact-form__input" type="text" id="lastname" name="lastname" required />
+        </div>
+      </div>
+      <div class="contact-form__row">
+        <div class="contact-form__field">
+          <label class="contact-form__label contact-form__label--required" for="email">E-Mail</label>
+          <input class="contact-form__input" type="email" id="email" name="email" required />
+        </div>
+        <div class="contact-form__field">
+          <label class="contact-form__label" for="phone">Telefon</label>
+          <input class="contact-form__input" type="tel" id="phone" name="phone" />
+        </div>
+      </div>
+      {subjectOptions && subjectOptions.length > 0 && (
+        <div class="contact-form__field">
+          <label class="contact-form__label" for="subject">Betreff</label>
+          <select class="contact-form__select" id="subject" name="subject">
+            <option value="">Bitte wählen</option>
+            {subjectOptions.map((opt) => (
+              <option value={opt.value}>{opt.label}</option>
+            ))}
+          </select>
+        </div>
+      )}
+      <div class="contact-form__field">
+        <label class="contact-form__label contact-form__label--required" for="message">Nachricht</label>
+        <textarea class="contact-form__textarea" id="message" name="message" required></textarea>
+      </div>
+      <button type="submit" class="contact-form__submit">{submitLabel}</button>
+    </form>
+  </div>
+</section>

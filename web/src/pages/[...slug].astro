@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+import ModuleRenderer from '../components/ModuleRenderer.astro'
+import { getPage, getAllPageSlugs } from '../lib/queries'
+
+export async function getStaticPaths() {
+  const slugs = await getAllPageSlugs()
+  return slugs.map((slug: string) => ({ params: { slug } }))
+}
+
+const { slug } = Astro.params
+const page = await getPage(slug!)
+const seoTitle = page?.seoTitle || page?.title
+const seoDescription = page?.seoDescription || ''
+---
+
+<BaseLayout title={seoTitle} description={seoDescription}>
+  {page?.modules && <ModuleRenderer modules={page.modules} />}
+</BaseLayout>

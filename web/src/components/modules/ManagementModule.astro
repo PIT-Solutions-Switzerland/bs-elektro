@@ -1,0 +1,48 @@
+---
+import { urlFor } from '../../lib/sanity'
+
+interface Person {
+  _id: string
+  name: string
+  role: string
+  image: any
+  bio?: string
+  phone?: string
+  email?: string
+}
+
+interface Props {
+  title: string
+  people: Person[]
+}
+
+const { title, people } = Astro.props
+---
+
+<section class="management">
+  <div class="management__inner">
+    <h2 class="management__title">{title}</h2>
+    <div class="management__grid">
+      {people?.map((person) => (
+        <article class="management__card">
+          <div class="management__card-image">
+            <img src={urlFor(person.image).width(400).height(500).url()} alt={person.image.alt || person.name} loading="lazy" />
+          </div>
+          <div class="management__card-content">
+            <h3 class="management__card-name">{person.name}</h3>
+            <p class="management__card-role">{person.role}</p>
+            {person.bio && <p class="management__card-text">{person.bio}</p>}
+            <div class="management__card-contact">
+              {person.phone && (
+                <a href={`tel:${person.phone.replace(/\s/g, '')}`} class="management__card-link">{person.phone}</a>
+              )}
+              {person.email && (
+                <a href={`mailto:${person.email}`} class="management__card-link">{person.email}</a>
+              )}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

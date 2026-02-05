@@ -1,0 +1,33 @@
+---
+import SectionHeader from './modules/SectionHeader.astro'
+import ContentModule from './modules/ContentModule.astro'
+import ImageText from './modules/ImageText.astro'
+import ReferenzenOverview from './modules/ReferenzenOverview.astro'
+import DienstleistungenCards from './modules/DienstleistungenCards.astro'
+import ContactModule from './modules/ContactModule.astro'
+import ContactForm from './modules/ContactForm.astro'
+import ManagementModule from './modules/ManagementModule.astro'
+
+interface Props {
+  modules: any[]
+}
+
+const { modules } = Astro.props
+
+const componentMap: Record<string, any> = {
+  sectionHeader: SectionHeader,
+  contentModule: ContentModule,
+  imageText: ImageText,
+  referenzenOverview: ReferenzenOverview,
+  dienstleistungenCards: DienstleistungenCards,
+  contactModule: ContactModule,
+  contactForm: ContactForm,
+  managementModule: ManagementModule,
+}
+---
+
+{modules?.map((module) => {
+  const Component = componentMap[module._type]
+  if (!Component) return null
+  return <Component {...module} />
+})}

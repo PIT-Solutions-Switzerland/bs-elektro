@@ -1,0 +1,85 @@
+---
+import { urlFor } from '../../lib/sanity'
+import ReferenzOverlay from './ReferenzOverlay.astro'
+
+interface Referenz {
+  _id: string
+  title: string
+  slug: { current: string }
+  image: any
+  address?: string
+  description: string
+  completionYear: string
+  buildType: string
+  buildingType?: string
+  services: string[]
+  client: string
+}
+
+interface Props {
+  title: string
+  referenzen: Referenz[]
+}
+
+const { title, referenzen } = Astro.props
+---
+
+<section class="referenzen">
+  <div class="referenzen__inner">
+    <h2 class="referenzen__title">{title}</h2>
+    <div class="referenzen__grid">
+      {referenzen?.map((ref) => (
+        <button type="button" class="referenzen__card" data-referenz={ref.slug.current}>
+          <div class="referenzen__card-image">
+            <img src={urlFor(ref.image).width(600).url()} alt={ref.image.alt || ref.title} loading="lazy" />
+          </div>
+          <h3 class="referenzen__card-title">{ref.title}</h3>
+        </button>
+      ))}
+    </div>
+  </div>
+</section>
+
+{referenzen?.map((ref) => (
+  <ReferenzOverlay referenz={ref} />
+))}
+
+<script>
+  function initReferenzen() {
+    const cards = document.querySelectorAll('.referenzen__card')
+    cards.forEach((card) => {
+      card.addEventListener('click', () => {
+        const slug = (card as HTMLElement).dataset.referenz
+        const overlay = document.getElementById(`referenz-${slug}`)
+        if (overlay) {
+          overlay.classList.add('is-open')
+          overlay.setAttribute('aria-hidden', 'false')
+          document.body.style.overflow = 'hidden'
+        }
+      })
+    })
+
+    document.querySelectorAll('.referenz-overlay__close').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const overlay = btn.closest('.referenz-overlay') as HTMLElement
+        overlay.classList.remove('is-open')
+        overlay.setAttribute('aria-hidden', 'true')
+        document.body.style.overflow = ''
+      })
+    })
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const open = document.querySelector('.referenz-overlay.is-open') as HTMLElement
+        if (open) {
+          open.classList.remove('is-open')
+          open.setAttribute('aria-hidden', 'true')
+          document.body.style.overflow = ''
+        }
+      }
+    })
+  }
+
+  initReferenzen()
+  document.addEventListener('astro:after-swap', initReferenzen)
+</script>

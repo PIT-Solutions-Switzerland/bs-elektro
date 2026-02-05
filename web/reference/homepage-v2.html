@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="BS Elektro AG – Ihr Partner für Elektroinstallationen in Rapperswil-Jona. Planung, Installation und Service für öffentliche Auftraggeber und Unternehmen." />
+    <title>BS Elektro AG – Elektroinstallationen in Rapperswil-Jona</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --color-nav: #252821;
+        --color-green: #4CB63C;
+        --color-green-dark: #3a9c2d;
+        --color-white: #ffffff;
+        --color-black: #1A1A1A;
+        --color-gray-100: #F5F5F5;
+        --color-gray-200: #E0E0E0;
+        --color-gray-600: #666666;
+        
+        --font-display: "Bebas Neue", sans-serif;
+        --font-body: Roboto, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+        
+        --page-padding: 60px;
+        --page-padding-tablet: 32px;
+        --page-padding-mobile: 24px;
+        --max-width: 1400px;
+        
+        --transition-fast: 0.2s ease;
+      }
+
+      *, *::before, *::after { box-sizing: border-box; }
+      html { 
+        scroll-behavior: smooth;
+      }
+      
+      body {
+        margin: 0;
+        font-family: var(--font-body);
+        font-size: 16px;
+        color: var(--color-black);
+        background: var(--color-white);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+      
+      a { color: inherit; }
+      img { display: block; max-width: 100%; height: auto; }
+
+      /* Accessibility */
+      .skip-link {
+        position: absolute;
+        top: -100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--color-green);
+        color: var(--color-white);
+        padding: 12px 24px;
+        text-decoration: none;
+        font-weight: 600;
+        z-index: 100;
+      }
+      .skip-link:focus { top: 0; }
+      a:focus-visible, button:focus-visible {
+        outline: 2px solid var(--color-green);
+        outline-offset: 2px;
+      }
+
+      /* Header */
+      .header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: var(--color-nav);
+        color: var(--color-white);
+      }
+      .header::after {
+        content: '';
+        display: block;
+        height: 3px;
+        background: var(--color-green);
+      }
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 96px;
+        padding: 0 var(--page-padding);
+        max-width: var(--max-width);
+        margin: 0 auto;
+      }
+      .nav__logo img {
+        height: 52px;
+        width: auto;
+        filter: brightness(0) invert(1);
+      }
+      .nav__links {
+        display: none;
+        gap: 48px;
+        align-items: center;
+        font-size: 17px;
+        font-weight: 500;
+      }
+      .nav__link {
+        text-decoration: none;
+      }
+      .nav__link:hover {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+      .nav__btn {
+        display: inline-block;
+        background: var(--color-green);
+        color: var(--color-white);
+        padding: 14px 32px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background var(--transition-fast);
+      }
+      .nav__btn:hover { background: var(--color-green-dark); }
+
+      /* Mobile menu */
+      .nav__mobile-toggle {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        width: 32px;
+        height: 32px;
+        padding: 4px;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+      .nav__mobile-toggle span {
+        display: block;
+        width: 100%;
+        height: 2px;
+        background: var(--color-white);
+        transition: transform var(--transition-fast), opacity var(--transition-fast);
+      }
+      .nav__mobile-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .nav__mobile-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+      .nav__mobile-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+      
+      .nav__mobile-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--color-nav);
+        padding: 24px var(--page-padding-mobile);
+        border-top: 1px solid rgba(255,255,255,0.1);
+      }
+      .nav__mobile-menu.is-open { display: block; }
+      .nav__mobile-menu a {
+        display: block;
+        padding: 12px 0;
+        text-decoration: none;
+        font-size: 16px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      .nav__mobile-menu a:last-child { border-bottom: none; }
+      .nav__mobile-menu .nav__btn {
+        display: block;
+        text-align: center;
+        margin-top: 16px;
+      }
+
+      /* Hero */
+      .hero {
+        display: flex;
+        flex-direction: column;
+        min-height: calc(100vh - 99px);
+        background: var(--color-green);
+      }
+      .hero__image {
+        position: relative;
+        overflow: hidden;
+        height: 46vh;
+        min-height: 300px;
+      }
+      .hero__image img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .hero__content {
+        background: var(--color-green);
+        color: var(--color-white);
+        padding: 48px var(--page-padding-mobile);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      .hero__title {
+        margin: 24px 0;
+        font-family: var(--font-display);
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        font-size: 36px;
+        line-height: 1.05;
+      }
+      .hero__subtitle {
+        margin: 0 0 64px;
+        font-size: 16px;
+        color: rgba(255,255,255,0.9);
+      }
+      .hero__contact-label {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
+      .hero__contact-link {
+        display: block;
+        font-size: 15px;
+        text-decoration: none;
+        margin: 6px 0;
+        transition: color var(--transition-fast);
+      }
+      .hero__contact-link:hover { color: var(--color-black); }
+
+      /* USP Section */
+      .usp {
+        padding: 100px var(--page-padding);
+        background: var(--color-white);
+      }
+      .usp__inner {
+        max-width: var(--max-width);
+        margin: 0 auto;
+      }
+      .usp__text {
+        max-width: 900px;
+        font-size: 28px;
+        line-height: 1.45;
+        letter-spacing: -0.01em;
+        margin: 0;
+      }
+
+      /* Services Section */
+      .services {
+        padding: 80px var(--page-padding);
+        background: var(--color-white);
+      }
+      .services__inner {
+        max-width: var(--max-width);
+        margin: 0 auto;
+      }
+      .services__label {
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--color-green);
+        margin: 0 0 16px;
+      }
+      .services__title {
+        font-family: var(--font-display);
+        font-size: 56px;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        margin: 0 0 48px;
+      }
+      .services__grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2px;
+        background: var(--color-gray-200);
+      }
+      .services__card {
+        background: var(--color-gray-100);
+        padding: 48px 32px;
+        min-height: 240px;
+        display: flex;
+        flex-direction: column;
+      }
+      .services__card-num {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--color-green);
+        margin-bottom: 24px;
+      }
+      .services__card-title {
+        margin-top: auto;
+        margin-bottom: 0;
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+      .services__tile {
+        position: relative;
+        overflow: hidden;
+        min-height: 240px;
+        background: var(--color-gray-200);
+      }
+      .services__tile img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* Contact Section */
+      .contact {
+        padding: 80px var(--page-padding);
+        background: var(--color-gray-100);
+      }
+      .contact__inner {
+        max-width: var(--max-width);
+        margin: 0 auto;
+      }
+      .contact__label {
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--color-green);
+        margin: 0 0 16px;
+      }
+      .contact__title {
+        font-family: var(--font-display);
+        font-size: 56px;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+        margin: 0 0 48px;
+      }
+      .contact__grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2px;
+        background: var(--color-gray-200);
+        max-width: 900px;
+      }
+      .contact__card {
+        background: var(--color-white);
+        display: grid;
+        grid-template-columns: 160px 1fr;
+      }
+      .contact__card-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .contact__card-content {
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .contact__card-name {
+        margin: 0 0 16px;
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+      .contact__card-link {
+        text-decoration: none;
+        font-size: 15px;
+        color: var(--color-black);
+        transition: color var(--transition-fast);
+      }
+      .contact__card-link:hover { color: var(--color-green); }
+
+      /* Footer */
+      .footer {
+        background: var(--color-green);
+        color: var(--color-white);
+        padding: 80px var(--page-padding);
+      }
+      .footer__inner {
+        max-width: var(--max-width);
+        margin: 0 auto;
+      }
+      .footer__grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+      }
+      .footer__nav-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin: 0 0 12px;
+      }
+      .footer__nav-link {
+        display: block;
+        margin-top: 12px;
+        text-decoration: none;
+      }
+      .footer__nav-link:hover {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+      .footer__address {
+        font-style: normal;
+        line-height: 1.7;
+      }
+      .footer__company-name {
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+      .footer__socket {
+        border-top: 1px solid rgba(255,255,255,0.2);
+        margin-top: 40px;
+        padding-top: 24px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 14px;
+      }
+      .footer__socket-links {
+        display: flex;
+        gap: 32px;
+      }
+      .footer__socket-link {
+        color: inherit;
+        text-decoration: none;
+      }
+      .footer__socket-link:hover {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+
+      /* Responsive */
+      @media (max-width: 1024px) {
+        .nav { padding: 0 var(--page-padding-tablet); }
+        .usp { padding: 80px var(--page-padding-tablet); }
+        .services { padding: 60px var(--page-padding-tablet); }
+        .services__grid { grid-template-columns: 1fr; }
+        .contact { padding: 60px var(--page-padding-tablet); }
+        .footer { padding: 60px var(--page-padding-tablet); }
+      }
+
+      @media (max-width: 768px) {
+        .nav { padding: 0 var(--page-padding-mobile); }
+        .usp { padding: 60px var(--page-padding-mobile); }
+        .usp__text { font-size: 22px; }
+        .services { padding: 48px var(--page-padding-mobile); }
+        .services__title { font-size: 40px; }
+        .services__card { padding: 32px 24px; min-height: 200px; }
+        .contact { padding: 48px var(--page-padding-mobile); }
+        .contact__title { font-size: 40px; }
+        .contact__grid { grid-template-columns: 1fr; }
+        .contact__card { grid-template-columns: 1fr; }
+        .contact__card-image { height: 200px; }
+        .footer { padding: 48px var(--page-padding-mobile); }
+        .footer__grid { grid-template-columns: 1fr; gap: 40px; }
+        .footer__socket { flex-direction: column; gap: 16px; text-align: center; }
+        .footer__socket-links { justify-content: center; }
+      }
+
+      @media (min-width: 769px) {
+        .nav__links { display: flex; }
+        .nav__mobile-toggle { display: none; }
+        .hero { flex-direction: row; min-height: calc(100vh - 99px); }
+        .hero__image { width: 58%; height: auto; min-height: auto; }
+        .hero__content { width: 42%; padding: 80px var(--page-padding); justify-content: center; }
+        .hero__title { font-size: 52px; margin-top: 0; }
+        .hero__subtitle { font-size: 18px; }
+      }
+    </style>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Zum Inhalt springen</a>
+
+    <header class="header">
+      <nav class="nav">
+        <div class="nav__logo">
+          <a href="/" aria-label="BS Elektro AG – Startseite">
+            <img src="/assets/logo.svg" alt="BS Elektro AG" />
+          </a>
+        </div>
+        <div class="nav__links">
+          <a href="/ueber-uns" class="nav__link">Über uns</a>
+          <a href="#services" class="nav__link">Dienstleistungen</a>
+          <a href="#contact" class="nav__link">Kontakt</a>
+          <a href="#contact" class="nav__btn">Kontakt</a>
+        </div>
+        <button class="nav__mobile-toggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobile-menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
+      <div id="mobile-menu" class="nav__mobile-menu">
+        <a href="/ueber-uns">Über uns</a>
+        <a href="#services">Dienstleistungen</a>
+        <a href="#contact">Kontakt</a>
+        <a href="#contact" class="nav__btn">Kontakt</a>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section class="hero">
+        <div class="hero__image">
+          <img src="/assets/images/electricians-working.jpg" alt="Elektriker bei der Arbeit an einer Elektroinstallation" />
+        </div>
+        <div class="hero__content">
+          <h1 class="hero__title">Elektroinstallationen für öffentliche Auftraggeber und Unternehmen</h1>
+          <p class="hero__subtitle">Planung, Installation und Service in Rapperswil-Jona.</p>
+          <div class="hero__contact">
+            <p class="hero__contact-label">Wir sind persönlich für Sie da</p>
+            <a href="tel:+41552205522" class="hero__contact-link">055 220 55 22</a>
+            <a href="mailto:baumgartner@bs-elektro-ag.ch" class="hero__contact-link">baumgartner@bs-elektro-ag.ch</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="usp">
+        <div class="usp__inner">
+          <p class="usp__text">
+            Elektroinstallationen, die halten was sie versprechen. BS Elektro AG begleitet öffentliche Auftraggeber und Unternehmen in Rapperswil-Jona – von der Planung über die Installation bis zum Service.
+          </p>
+        </div>
+      </section>
+
+      <section id="services" class="services">
+        <div class="services__inner">
+          <p class="services__label">Dienstleistungen</p>
+          <h2 class="services__title">Was wir tun</h2>
+          <div class="services__grid">
+            <div class="services__card">
+              <span class="services__card-num">01</span>
+              <h3 class="services__card-title">Neubauten und Umbauten</h3>
+            </div>
+            <div class="services__card">
+              <span class="services__card-num">02</span>
+              <h3 class="services__card-title">Service, Sicherheit &amp; Wartung</h3>
+            </div>
+            <div class="services__tile">
+              <img src="/assets/images/electrical-installation.jpg" alt="Elektroinstallation" />
+            </div>
+            <div class="services__tile">
+              <img src="/assets/images/electricians-working.jpg" alt="Elektriker bei der Arbeit" />
+            </div>
+            <div class="services__card">
+              <span class="services__card-num">03</span>
+              <h3 class="services__card-title">Lichtinstallationen</h3>
+            </div>
+            <div class="services__card">
+              <span class="services__card-num">04</span>
+              <h3 class="services__card-title">Kommunikationslösungen</h3>
+            </div>
+            <div class="services__card">
+              <span class="services__card-num">05</span>
+              <h3 class="services__card-title">Gebäudeautomatisationen</h3>
+            </div>
+            <div class="services__card">
+              <span class="services__card-num">06</span>
+              <h3 class="services__card-title">Photovoltaik</h3>
+            </div>
+            <div class="services__tile">
+              <img src="/assets/images/electrical-installation.jpg" alt="Steuerungstechnik" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="contact">
+        <div class="contact__inner">
+          <p class="contact__label">Kontakt</p>
+          <h2 class="contact__title">Wir sind persönlich für Sie da.</h2>
+          <div class="contact__grid">
+            <article class="contact__card">
+              <img class="contact__card-image" src="/assets/images/peter-baumgartner.jpg" alt="Peter Baumgartner" />
+              <div class="contact__card-content">
+                <h3 class="contact__card-name">Peter Baumgartner</h3>
+                <a href="tel:+41552205522" class="contact__card-link">055 220 55 22</a>
+                <a href="mailto:baumgartner@bs-elektro-ag.ch" class="contact__card-link">baumgartner@bs-elektro-ag.ch</a>
+              </div>
+            </article>
+            <article class="contact__card">
+              <img class="contact__card-image" src="/assets/images/gabriel-stillhard.jpg" alt="Gabriel Stillhard" />
+              <div class="contact__card-content">
+                <h3 class="contact__card-name">Gabriel Stillhard</h3>
+                <a href="tel:+41552205523" class="contact__card-link">055 220 55 23</a>
+                <a href="mailto:stillhard@bs-elektro-ag.ch" class="contact__card-link">stillhard@bs-elektro-ag.ch</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer__inner">
+        <div class="footer__grid">
+          <nav aria-label="Footer-Navigation">
+            <h2 class="footer__nav-title">Navigation</h2>
+            <a href="/ueber-uns" class="footer__nav-link">Über uns</a>
+            <a href="#services" class="footer__nav-link">Dienstleistungen</a>
+            <a href="#contact" class="footer__nav-link">Kontakt</a>
+          </nav>
+          <address class="footer__address">
+            <p class="footer__company-name">Baumgartner &amp; Stillhard Elektro AG</p>
+            <p>Holzwiesstrasse 35<br />8645 Jona</p>
+          </address>
+        </div>
+        <div class="footer__socket">
+          <p>© Baumgartner &amp; Stillhard Elektro AG 2026</p>
+          <div class="footer__socket-links">
+            <a href="/datenschutz" class="footer__socket-link">Datenschutz</a>
+            <a href="/impressum" class="footer__socket-link">Impressum</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      (function() {
+        const toggle = document.querySelector('.nav__mobile-toggle');
+        const menu = document.getElementById('mobile-menu');
+        if (toggle && menu) {
+          toggle.addEventListener('click', function() {
+            const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+            toggle.setAttribute('aria-expanded', !isExpanded);
+            menu.classList.toggle('is-open');
+          });
+          menu.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function() {
+              toggle.setAttribute('aria-expanded', 'false');
+              menu.classList.remove('is-open');
+            });
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>

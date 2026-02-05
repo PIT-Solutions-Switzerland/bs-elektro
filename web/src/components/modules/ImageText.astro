@@ -1,0 +1,31 @@
+---
+import { urlFor } from '../../lib/sanity'
+
+interface Props {
+  image: any
+  title: string
+  text: string
+  ctaText?: string
+  ctaLink?: string
+  reversed?: boolean
+}
+
+const { image, title, text, ctaText, ctaLink, reversed } = Astro.props
+const imageUrl = urlFor(image).width(800).url()
+const altText = image.alt || ''
+---
+
+<section class={`image-text${reversed ? ' image-text--reversed' : ''}`}>
+  <div class="image-text__inner">
+    <div class="image-text__image">
+      <img src={imageUrl} alt={altText} loading="lazy" />
+    </div>
+    <div class="image-text__content">
+      <h2 class="image-text__title">{title}</h2>
+      <p class="image-text__text">{text}</p>
+      {ctaText && ctaLink && (
+        <a href={ctaLink} class="image-text__btn">{ctaText}</a>
+      )}
+    </div>
+  </div>
+</section>

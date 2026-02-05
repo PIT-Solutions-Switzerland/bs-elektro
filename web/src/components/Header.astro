@@ -1,0 +1,69 @@
+---
+interface NavItem {
+  label: string
+  href: string
+  children?: NavItem[]
+}
+
+interface Props {
+  logoUrl: string
+  logoAlt: string
+  navItems: NavItem[]
+}
+
+const { logoUrl, logoAlt, navItems } = Astro.props
+const lastItem = navItems.length > 0 ? navItems[navItems.length - 1] : null
+const linkItems = navItems.slice(0, -1)
+---
+
+<a href="#main-content" class="skip-link">Zum Inhalt springen</a>
+
+<header class="header">
+  <nav class="nav">
+    <div class="nav__logo">
+      <a href="/" aria-label="BS Elektro AG – Startseite">
+        <img src={logoUrl} alt={logoAlt} />
+      </a>
+    </div>
+    <div class="nav__links">
+      {linkItems.map((item) => (
+        <a href={item.href} class="nav__link">{item.label}</a>
+      ))}
+      {lastItem && <a href={lastItem.href} class="nav__btn">{lastItem.label}</a>}
+    </div>
+    <button class="nav__mobile-toggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobile-menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+  <div id="mobile-menu" class="nav__mobile-menu">
+    {linkItems.map((item) => (
+      <a href={item.href}>{item.label}</a>
+    ))}
+    {lastItem && <a href={lastItem.href} class="nav__btn">{lastItem.label}</a>}
+  </div>
+</header>
+
+<script>
+  function initMobileMenu() {
+    const toggle = document.querySelector('.nav__mobile-toggle')
+    const menu = document.getElementById('mobile-menu')
+    if (toggle && menu) {
+      toggle.addEventListener('click', () => {
+        const isExpanded = toggle.getAttribute('aria-expanded') === 'true'
+        toggle.setAttribute('aria-expanded', String(!isExpanded))
+        menu.classList.toggle('is-open')
+      })
+      menu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+          toggle.setAttribute('aria-expanded', 'false')
+          menu.classList.remove('is-open')
+        })
+      })
+    }
+  }
+
+  initMobileMenu()
+  document.addEventListener('astro:after-swap', initMobileMenu)
+</script>
