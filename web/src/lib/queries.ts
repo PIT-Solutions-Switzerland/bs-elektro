@@ -127,7 +127,7 @@ export async function getSiteSettings() {
     *[_type == "siteSettings"][0] {
       logo,
       favicon,
-      footerContent,
+      footerAddress,
       footerLinks[] { label, href },
       customHeadTags
     }

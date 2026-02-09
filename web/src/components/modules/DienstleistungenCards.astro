@@ -1,5 +1,6 @@
 ---
 import { urlFor } from '../../lib/sanity'
+import { slugify } from '../../lib/utils'
 
 interface CardItem {
   _type: 'card'
@@ -36,8 +37,9 @@ const isModule = !!_key
         if (item._type === 'card') {
           const Tag = item.link ? 'a' : 'div'
           const linkProps = item.link ? { href: item.link } : {}
+          const anchorId = item.title ? slugify(item.title) : undefined
           return (
-            <Tag class="dienstleistungen__card" {...linkProps}>
+            <Tag class="dienstleistungen__card" id={anchorId} {...linkProps}>
               <div class="dienstleistungen__card-num">{item.number}</div>
               <h3 class="dienstleistungen__card-title">{item.title}</h3>
               {item.description && <p class="dienstleistungen__card-text">{item.description}</p>}

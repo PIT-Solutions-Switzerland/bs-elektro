@@ -20,6 +20,7 @@ const logoUrl = siteSettings?.logo ? urlFor(siteSettings.logo).url() : '/assets/
 const logoAlt = siteSettings?.logo?.alt || 'BS Elektro AG'
 const faviconUrl = siteSettings?.favicon ? urlFor(siteSettings.favicon).width(64).url() : null
 const navItems = navigation?.items || []
+const footerAddress = siteSettings?.footerAddress || 'Baumgartner & Stillhard Elektro AG\nHolzwiesstrasse 35\n8645 Jona'
 ---
 
 <!DOCTYPE html>
@@ -39,6 +40,6 @@ const navItems = navigation?.items || []
     <main id="main-content">
       <slot />
     </main>
-    <Footer navItems={navItems} footerLinks={siteSettings?.footerLinks || []} />
+    <Footer navItems={navItems} footerAddress={footerAddress} footerLinks={siteSettings?.footerLinks || []} />
   </body>
 </html>

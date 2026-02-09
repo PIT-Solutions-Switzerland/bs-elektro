@@ -46,47 +46,18 @@ export const siteSettings = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: 'footerContent',
-      title: 'Footer Content',
-      type: 'array',
-      description: 'Rich text content for the website footer',
-      of: [
-        {
-          type: 'block',
-          styles: [{title: 'Normal', value: 'normal'}],
-          marks: {
-            decorators: [
-              {title: 'Bold', value: 'strong'},
-              {title: 'Italic', value: 'em'},
-            ],
-            annotations: [
-              {
-                name: 'link',
-                type: 'object',
-                title: 'Link',
-                fields: [
-                  {
-                    name: 'href',
-                    type: 'url',
-                    title: 'URL',
-                    validation: (rule) =>
-                      rule.uri({
-                        allowRelative: true,
-                        scheme: ['http', 'https', 'mailto', 'tel'],
-                      }),
-                  },
-                ],
-              },
-            ],
-          },
-        },
-      ],
+      name: 'footerAddress',
+      title: 'Footer Address',
+      type: 'text',
+      description: 'Company address displayed in the footer (use line breaks for formatting)',
+      rows: 4,
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: 'footerLinks',
-      title: 'Footer Links',
+      title: 'Footer Bottom Links',
       type: 'array',
-      description: 'Links displayed at the bottom of the footer (e.g. Datenschutz, Impressum)',
+      description: 'Secondary links at bottom of footer (e.g. Datenschutz, Impressum)',
       of: [
         defineArrayMember({
           type: 'object',

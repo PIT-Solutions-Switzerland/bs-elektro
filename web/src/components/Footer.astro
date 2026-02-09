@@ -11,10 +11,11 @@ interface FooterLink {
 
 interface Props {
   navItems: NavItem[]
+  footerAddress: string
   footerLinks: FooterLink[]
 }
 
-const { navItems, footerLinks } = Astro.props
+const { navItems, footerAddress, footerLinks } = Astro.props
 ---
 
 <footer class="footer">
@@ -22,15 +23,13 @@ const { navItems, footerLinks } = Astro.props
     <div class="footer__grid">
       {navItems.length > 0 && (
         <nav aria-label="Footer-Navigation">
-          <h2 class="footer__nav-title">Navigation</h2>
           {navItems.map((item) => (
             <a href={item.href} class="footer__nav-link">{item.label}</a>
           ))}
         </nav>
       )}
       <address class="footer__address">
-        <p class="footer__company-name">Baumgartner &amp; Stillhard Elektro AG</p>
-        <p>Holzwiesstrasse 35<br />8645 Jona</p>
+        <p style="white-space: pre-line">{footerAddress}</p>
       </address>
     </div>
     <div class="footer__socket">
