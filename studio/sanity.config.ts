@@ -7,7 +7,7 @@ export default defineConfig({
   name: 'default',
   title: 'bs-elektro',
 
-  projectId: 'w09dask9',
+  projectId: '5mzwjja7',
   dataset: 'production',
 
   plugins: [structureTool(), visionTool()],
@@ -21,8 +21,11 @@ export default defineConfig({
     productionUrl: async (prev, context) => {
       const {document} = context
 
-      // Base URL - change to your production URL when deploying
-      const baseUrl = 'http://localhost:4321'
+      // Determine base URL based on dataset
+      const dataset = context.dataset || 'production'
+      const baseUrl = dataset === 'staging'
+        ? 'https://staging-bs-elektro.netlify.app'  // Will update with actual URL after Netlify setup
+        : 'https://bs-elektro.netlify.app'           // Will update with actual URL after Netlify setup
 
       // Homepage
       if (document._type === 'homepage') {
