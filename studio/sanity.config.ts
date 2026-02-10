@@ -3,47 +3,48 @@ import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
 
-export default defineConfig({
-  name: 'default',
-  title: 'bs-elektro',
-
+const sharedConfig = {
   projectId: '5mzwjja7',
-  dataset: 'production',
-
   plugins: [structureTool(), visionTool()],
-
   schema: {
     types: schemaTypes,
   },
+}
 
-  document: {
-    // Preview URLs - maps documents to their frontend URLs
-    productionUrl: async (prev, context) => {
+function getPreviewUrl(baseUrl: string) {
+  return {
+    productionUrl: async (prev: string | undefined, context: {document: Record<string, any>}) => {
       const {document} = context
 
-      // Determine base URL based on dataset
-      const dataset = context.dataset || 'production'
-      const baseUrl = dataset === 'staging'
-        ? 'https://staging-bs-elektro.netlify.app'
-        : 'https://bs-elektro.netlify.app'
-
-      // Homepage
       if (document._type === 'homepage') {
         return `${baseUrl}/`
       }
-
-      // Regular pages with slugs
       if (document._type === 'page' && document.slug?.current) {
         return `${baseUrl}/${document.slug.current}`
       }
-
-      // Referenzen pages
       if (document._type === 'referenz' && document.slug?.current) {
         return `${baseUrl}/referenzen/${document.slug.current}`
       }
-
-      // Fall back to default if no match
       return prev
     },
+  }
+}
+
+export default defineConfig([
+  {
+    ...sharedConfig,
+    name: 'production',
+    title: 'Production',
+    dataset: 'production',
+    basePath: '/prod',
+    document: getPreviewUrl('https://bs-elektro.netlify.app'),
   },
-})
+  {
+    ...sharedConfig,
+    name: 'staging',
+    title: 'Staging',
+    dataset: 'staging',
+    basePath: '/stage',
+    document: getPreviewUrl('https://staging-bs-elektro.netlify.app'),
+  },
+])
