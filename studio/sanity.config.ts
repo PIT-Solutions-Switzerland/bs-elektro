@@ -24,8 +24,8 @@ export default defineConfig({
       // Determine base URL based on dataset
       const dataset = context.dataset || 'production'
       const baseUrl = dataset === 'staging'
-        ? 'https://staging-bs-elektro.netlify.app'  // Will update with actual URL after Netlify setup
-        : 'https://bs-elektro.netlify.app'           // Will update with actual URL after Netlify setup
+        ? 'https://staging-bs-elektro.netlify.app'
+        : 'https://bs-elektro.netlify.app'
 
       // Homepage
       if (document._type === 'homepage') {
