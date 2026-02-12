@@ -86,9 +86,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   margin: 0 auto;
 }
 .nav__logo img {
-  height: 52px;
+  height: 66px;
   width: auto;
-  filter: brightness(0) invert(1);
 }
 .nav__links {
   display: none;
