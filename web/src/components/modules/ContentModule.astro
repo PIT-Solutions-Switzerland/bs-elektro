@@ -1,5 +1,6 @@
 ---
 import { toHTML } from '@portabletext/to-html'
+import { urlFor } from '../../lib/sanity'
 
 interface Props {
   heading: string
@@ -16,6 +17,19 @@ const html = toHTML(content, {
     },
     marks: {
       link: ({ children, value }) => `<a href="${value.href}">${children}</a>`,
+      fileAttachment: ({ children, value }) =>
+        `<a href="${value.fileUrl}" target="_blank" rel="noopener noreferrer" class="content-module__pdf-link">${children}</a>`,
+    },
+    types: {
+      image: ({ value }) => {
+        const src = value.url || urlFor(value).url()
+        const alt = value.alt || ''
+        const caption = value.caption || ''
+        return `<figure class="content-module__figure">
+          <img src="${src}" alt="${alt}" class="content-module__image" loading="lazy" />
+          ${caption ? `<figcaption class="content-module__caption">${caption}</figcaption>` : ''}
+        </figure>`
+      },
     },
   },
 })

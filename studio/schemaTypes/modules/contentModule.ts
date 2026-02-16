@@ -44,8 +44,38 @@ export default defineType({
                   },
                 ],
               },
+              {
+                name: 'fileAttachment',
+                type: 'object',
+                title: 'PDF File',
+                fields: [
+                  {
+                    name: 'file',
+                    type: 'file',
+                    title: 'PDF File',
+                    options: {accept: 'application/pdf'},
+                  },
+                ],
+              },
             ],
           },
+        }),
+        defineArrayMember({
+          type: 'image',
+          title: 'Image',
+          options: {hotspot: true},
+          fields: [
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Alt Text',
+            },
+            {
+              name: 'caption',
+              type: 'string',
+              title: 'Caption',
+            },
+          ],
         }),
       ],
       validation: (rule) => rule.required(),

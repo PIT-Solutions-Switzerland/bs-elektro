@@ -7,7 +7,22 @@ const moduleFields = `
     label, title, intro
   },
   _type == "contentModule" => {
-    heading, content
+    heading,
+    content[]{
+      ...,
+      _type == "image" => {
+        ...,
+        "url": asset->url,
+        "alt": alt
+      },
+      markDefs[]{
+        ...,
+        _type == "fileAttachment" => {
+          ...,
+          "fileUrl": file.asset->url
+        }
+      }
+    }
   },
   _type == "imageText" => {
     image, title, text, ctaText, ctaLink, reversed
