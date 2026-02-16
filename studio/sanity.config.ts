@@ -37,7 +37,7 @@ export default defineConfig([
     title: 'Production',
     dataset: 'production',
     basePath: '/prod',
-    document: getPreviewUrl('https://bs-elektro.netlify.app'),
+    document: getPreviewUrl('https://bs-elektro-ag.ch'),
   },
   {
     ...sharedConfig,
