@@ -29,7 +29,7 @@ const html = toHTML(content, {
           ${caption ? `<figcaption class="content-module__caption">${caption}</figcaption>` : ''}
         </figure>`
       },
-      file: ({ value }) => {
+      pdfDocument: ({ value }) => {
         if (!value.fileUrl) return ''
         const title = value.title || 'PDF herunterladen'
         return `<p class="content-module__text"><a href="${value.fileUrl}" target="_blank" rel="noopener noreferrer" class="content-module__pdf-link">${title}</a></p>`

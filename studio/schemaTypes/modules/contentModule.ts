@@ -65,10 +65,17 @@ export default defineType({
           ],
         }),
         defineArrayMember({
-          type: 'file',
+          name: 'pdfDocument',
+          type: 'object',
           title: 'PDF Document',
-          options: {accept: 'application/pdf'},
           fields: [
+            {
+              name: 'file',
+              type: 'file',
+              title: 'PDF File',
+              options: {accept: 'application/pdf'},
+              validation: (rule) => rule.required(),
+            },
             {
               name: 'title',
               type: 'string',

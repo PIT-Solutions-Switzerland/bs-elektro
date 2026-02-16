@@ -15,10 +15,10 @@ const moduleFields = `
         "url": asset->url,
         "alt": alt
       },
-      _type == "file" => {
+      _type == "pdfDocument" => {
         ...,
         title,
-        "fileUrl": asset->url
+        "fileUrl": file.asset->url
       }
     }
   },
