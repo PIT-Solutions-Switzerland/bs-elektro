@@ -3,10 +3,11 @@ import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
 import {media} from 'sanity-plugin-media'
+import {deDELocale} from '@sanity/locale-de-de'
 
 const sharedConfig = {
   projectId: '5mzwjja7',
-  plugins: [structureTool(), visionTool(), media()],
+  plugins: [structureTool(), visionTool(), media(), deDELocale()],
   schema: {
     types: schemaTypes,
   },
