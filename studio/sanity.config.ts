@@ -2,10 +2,11 @@ import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
+import {media} from 'sanity-plugin-media'
 
 const sharedConfig = {
   projectId: '5mzwjja7',
-  plugins: [structureTool(), visionTool()],
+  plugins: [structureTool(), visionTool(), media()],
   schema: {
     types: schemaTypes,
   },
