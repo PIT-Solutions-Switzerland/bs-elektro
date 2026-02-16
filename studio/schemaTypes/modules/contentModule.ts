@@ -44,19 +44,6 @@ export default defineType({
                   },
                 ],
               },
-              {
-                name: 'fileAttachment',
-                type: 'object',
-                title: 'PDF File',
-                fields: [
-                  {
-                    name: 'file',
-                    type: 'file',
-                    title: 'PDF File',
-                    options: {accept: 'application/pdf'},
-                  },
-                ],
-              },
             ],
           },
         }),
@@ -74,6 +61,20 @@ export default defineType({
               name: 'caption',
               type: 'string',
               title: 'Caption',
+            },
+          ],
+        }),
+        defineArrayMember({
+          type: 'file',
+          title: 'PDF Document',
+          options: {accept: 'application/pdf'},
+          fields: [
+            {
+              name: 'title',
+              type: 'string',
+              title: 'Link Text',
+              description: 'Text displayed as the download link',
+              validation: (rule) => rule.required(),
             },
           ],
         }),

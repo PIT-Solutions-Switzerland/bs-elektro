@@ -15,12 +15,10 @@ const moduleFields = `
         "url": asset->url,
         "alt": alt
       },
-      markDefs[]{
+      _type == "file" => {
         ...,
-        _type == "fileAttachment" => {
-          ...,
-          "fileUrl": file.asset->url
-        }
+        title,
+        "fileUrl": asset->url
       }
     }
   },

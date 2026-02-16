@@ -17,8 +17,6 @@ const html = toHTML(content, {
     },
     marks: {
       link: ({ children, value }) => `<a href="${value.href}">${children}</a>`,
-      fileAttachment: ({ children, value }) =>
-        `<a href="${value.fileUrl}" target="_blank" rel="noopener noreferrer" class="content-module__pdf-link">${children}</a>`,
     },
     types: {
       image: ({ value }) => {
@@ -30,6 +28,11 @@ const html = toHTML(content, {
           <img src="${src}" alt="${alt}" class="content-module__image" loading="lazy" />
           ${caption ? `<figcaption class="content-module__caption">${caption}</figcaption>` : ''}
         </figure>`
+      },
+      file: ({ value }) => {
+        if (!value.fileUrl) return ''
+        const title = value.title || 'PDF herunterladen'
+        return `<p class="content-module__text"><a href="${value.fileUrl}" target="_blank" rel="noopener noreferrer" class="content-module__pdf-link">${title}</a></p>`
       },
     },
   },
