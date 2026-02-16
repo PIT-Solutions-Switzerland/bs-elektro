@@ -22,6 +22,7 @@ const html = toHTML(content, {
     },
     types: {
       image: ({ value }) => {
+        if (!value.url && !value.asset) return ''
         const src = value.url || urlFor(value).url()
         const alt = value.alt || ''
         const caption = value.caption || ''
